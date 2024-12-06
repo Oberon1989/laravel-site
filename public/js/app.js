@@ -5211,24 +5211,47 @@ $(document).ready(function () {
       }
     });
   });
-  $(document).ready(function () {
-    $('.processUser button').on('click', function (e) {
-      e.preventDefault();
-      var form = $(this).closest('.processUser');
-      var id = $(form).find('input[name="user_id"]').val();
-      var url = $(this).hasClass('accept') ? '/accept-user/' + id : '/reject-user/' + id;
-      $.ajax({
-        url: url,
-        type: 'get',
-        success: function success(response) {
-          showPopup(response.message, 'success');
-          form.closest('.card').remove();
-        },
-        error: function error(_error5) {
-          showPopup('Ошибка: ' + _error5.responseJSON.message, 'danger');
-        }
-      });
+  $('.processUser button').on('click', function (e) {
+    e.preventDefault();
+    var form = $(this).closest('.processUser');
+    var id = $(form).find('input[name="user_id"]').val();
+    var url = $(this).hasClass('accept') ? '/accept-user/' + id : '/reject-user/' + id;
+    $.ajax({
+      url: url,
+      type: 'get',
+      success: function success(response) {
+        showPopup(response.message, 'success');
+        form.closest('.card').remove();
+      },
+      error: function error(_error5) {
+        showPopup('Ошибка: ' + _error5.responseJSON.message, 'danger');
+      }
     });
+  });
+  $('.editUserListForm').on('click', function (e) {
+    e.preventDefault();
+    var id = $(this).closest('form').find('input[name="user_id"]').val();
+    var url = $.ajax({
+      url: url,
+      type: 'get',
+      success: function success(response) {
+        showPopup(response.message, 'success');
+        form.closest('.card').remove();
+      },
+      error: function error(_error6) {
+        showPopup('Ошибка: ' + _error6.responseJSON.message, 'danger');
+      }
+    });
+  });
+  $('.deleteUserListForm').on('click', function (e) {
+    e.preventDefault();
+    var id = $(this).closest('form').find('input[name="user_id"]').val();
+    console.log(id);
+  });
+  $('.banUserListForm').on('click', function (e) {
+    e.preventDefault();
+    var id = $(this).closest('form').find('input[name="user_id"]').val();
+    console.log(id);
   });
   $('#uploadImageForm').on('submit', function (e) {
     e.preventDefault();
@@ -5244,8 +5267,8 @@ $(document).ready(function () {
         console.log('Успех:', response);
         alert('Файлы успешно загружены!');
       },
-      error: function error(xhr, status, _error6) {
-        console.error('Ошибка:', _error6);
+      error: function error(xhr, status, _error7) {
+        console.error('Ошибка:', _error7);
         alert('Произошла ошибка при загрузке файлов.');
       }
     });

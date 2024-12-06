@@ -145,4 +145,15 @@ class UserController extends Controller
     {
         return view('edit-user',['user'=>$user]);
     }
+
+    public function getUsersView()
+    {
+        $users = User::all();
+        return view('users-list',['users'=>$users]);
+    }
+
+    public function getUsersViewModal(User $user)
+    {
+        return view('components.edit-user-component',['user'=>$user]);
+    }
 }

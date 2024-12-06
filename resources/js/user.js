@@ -104,7 +104,7 @@ $(document).ready(function (){
         });
     })
 
-    $(document).ready(function () {
+
         $('.processUser button').on('click', function (e) {
             e.preventDefault();
 
@@ -124,7 +124,36 @@ $(document).ready(function (){
                 }
             });
         });
+
+    $('.editUserListForm').on('click', function (e) {
+        e.preventDefault();
+        let id =$(this).closest('form').find('input[name="user_id"]').val();
+        let url =
+        $.ajax({
+            url: url,
+            type: 'get',
+            success: function (response) {
+                showPopup(response.message, 'success');
+                form.closest('.card').remove();
+            },
+            error: function (error) {
+                showPopup('Ошибка: ' + error.responseJSON.message, 'danger');
+            }
+        });
     });
+
+    $('.deleteUserListForm').on('click', function (e) {
+        e.preventDefault();
+        let id =$(this).closest('form').find('input[name="user_id"]').val();
+        console.log(id)
+    });
+    $('.banUserListForm').on('click', function (e) {
+        e.preventDefault();
+        let id =$(this).closest('form').find('input[name="user_id"]').val();
+        console.log(id)
+
+    });
+
 
 
     $('#uploadImageForm').on('submit', function (e) {

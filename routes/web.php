@@ -55,6 +55,8 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/wait-confirm-user-list', [UserController::class, 'waitConfirmUsersView'])->name('waitConfirmUserListRoute');
     Route::get('/accept-user/{user}', [UserController::class, 'acceptUser'])->name('acceptUserRoute');
     Route::get('/reject-user/{user}', [UserController::class, 'rejectUser'])->name('rejectUserRoute');
+    Route::get('/users', [UserController::class, 'getUsersView'])->name('getUsersViewRoute');
+    Route::get('/users/edit-user-modal/{user}', [UserController::class, 'getUsersViewModal'])->name('getUsersViewModalRoute');
 });
 
 

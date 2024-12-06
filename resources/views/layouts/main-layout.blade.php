@@ -12,28 +12,32 @@
 </head>
 <body>
 @php
-use Illuminate\Support\Facades\Auth
+    use Illuminate\Support\Facades\Auth
 @endphp
 @auth
-<header>
-    <nav class="nav-menu">
-        <ul class="nav-menu__list">
-            <li class="nav-menu__item"><a href="{{route('indexRoute')}}" class="nav-menu__link">Главная</a></li>
-            <li class="nav-menu__item"><a href="#home" class="nav-menu__link">Карта сервера</a></li>
-            <li class="nav-menu__item nav-menu__item--has-submenu">
-                @admin
-                <a href="#services" class="nav-menu__link">Администрирование</a>
-                <ul class="nav-menu__submenu">
-                    <li class="nav-menu__submenu-item"><a href="{{route('waitConfirmUserListRoute')}}" class="nav-menu__submenu-link">Ожидающие пользователи</a></li>
-                    <li class="nav-menu__submenu-item"><a href="#development" class="nav-menu__submenu-link">Все пользователи</a></li>
-                </ul>
-                @endadmin
-            </li>
-            <li class="nav-menu__item"><a href="{{route('Users.getProfileViewRoute',[Auth::user()])}}" class="nav-menu__link">Личный кабинет</a></li>
-            <li class="nav-menu__item"><a href="{{route('logoutRoute')}}" class="nav-menu__link">Выйти</a></li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <nav class="nav-menu">
+            <ul class="nav-menu__list">
+                <li class="nav-menu__item"><a href="{{route('indexRoute')}}" class="nav-menu__link">Главная</a></li>
+                <li class="nav-menu__item"><a href="#home" class="nav-menu__link">Карта сервера</a></li>
+                <li class="nav-menu__item nav-menu__item--has-submenu">
+                    @admin
+                    <a href="#services" class="nav-menu__link">Администрирование</a>
+                    <ul class="nav-menu__submenu">
+                        <li class="nav-menu__submenu-item"><a href="{{route('waitConfirmUserListRoute')}}"
+                                                              class="nav-menu__submenu-link">Ожидающие пользователи</a>
+                        </li>
+                        <li class="nav-menu__submenu-item"><a href="{{route('getUsersViewRoute')}}"
+                                                              class="nav-menu__submenu-link">Все пользователи</a></li>
+                    </ul>
+                    @endadmin
+                </li>
+                <li class="nav-menu__item"><a href="{{route('Users.getProfileViewRoute',[Auth::user()])}}"
+                                              class="nav-menu__link">Личный кабинет</a></li>
+                <li class="nav-menu__item"><a href="{{route('logoutRoute')}}" class="nav-menu__link">Выйти</a></li>
+            </ul>
+        </nav>
+    </header>
 @endauth
 @if (session('error'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -56,6 +60,7 @@ use Illuminate\Support\Facades\Auth
 <div id="popupMessage" class="alert" role="alert"
      style="position: fixed; top: 20px; right: 20px;width: auto;height: auto; z-index: 1050; text-align: center">
 </div>
+@include('modal.main-modal')
 
 
 {{--<footer>--}}
