@@ -24,9 +24,9 @@ class ImageService
 
         Storage::putFileAs("{$userDirectory}/skins", $skin, 'skin.png');
 
-        if (Storage::exists("{$userDirectory}/cloaks/cloaks.png")) {
+        if (Storage::exists("{$userDirectory}/cloaks/cloak.png")) {
             $timestamp = Carbon::now()->format('Ymd_His');
-            Storage::move("{$userDirectory}/cloaks/cloaks.png", "{$userDirectory}/cloaks/cloaks_{$timestamp}.png");
+            Storage::move("{$userDirectory}/cloaks/cloak.png", "{$userDirectory}/cloaks/cloak_{$timestamp}.png");
         }
 
         Storage::putFileAs("{$userDirectory}/cloaks", $cloak, 'cloak.png');
@@ -47,9 +47,12 @@ class ImageService
             'cloak' => null,
         ];
 
+
         if (Storage::exists("{$userDirectory}/skins/skin.png")) {
             $imageUrls['skin'] = url(Storage::url("{$userDirectory}/skins/skin.png"));
         }
+
+
 
         if (Storage::exists("{$userDirectory}/cloaks/cloak.png")) {
             $imageUrls['cloak'] = url(Storage::url("{$userDirectory}/cloaks/cloak.png"));

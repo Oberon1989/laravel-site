@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SeverController extends Controller
 {
@@ -46,10 +47,19 @@ class SeverController extends Controller
             ->first();
 
         if($user){
-            $accessToken = $this->generateAccessToken();
-            $user->access_token = $accessToken;
-            $user->save();
-            return response()->json(['uuid'=>$user->uuid,'accessToken'=>$user->access_token]);
+            if($user->status==1){
+                $accessToken = $this->generateAccessToken();
+                $user->access_token = $accessToken;
+                $user->save();
+                return response()->json(['uuid'=>$user->uuid,'accessToken'=>$user->access_token]);
+            }
+            if($user->status==-1){
+                return response()->json(['error'=>'You are banned permanent'],401);
+            }
+            else{
+                return response()->json(['error'=>'User not exist'],401);
+            }
+
         }
         else return response()->json(['error'=>'Unauthorized'], 401);
     }
@@ -66,15 +76,17 @@ class SeverController extends Controller
         return md5($randNum);
     }
 
-    function getProfile($uuid, $username,User $user,ImageService $imageService): array
+    function getProfile($uuid, $username, User $user, ImageService $imageService): array
     {
-       $images = $imageService->getUserSkinCloak($user);
-       if($images['skin']){
-           $textures['SKIN']=['url' => $images['skin']];
-       }
-        if($images['cloak']){
-            $textures['CAPE']=['url' => $images['cloak']];
+        $textures = [];
+        $images = $imageService->getUserSkinCloak($user);
+        if ($images['skin']) {
+            $textures['SKIN'] = ['url' => $images['skin']];
         }
+        if ($images['cloak']) {
+            $textures['CAPE'] = ['url' => $images['cloak']];
+        }
+
 
         $property = [
             'timestamp' => time(),
@@ -95,4 +107,6 @@ class SeverController extends Controller
             ]
         ];
     }
+
+
 }

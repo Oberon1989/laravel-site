@@ -1,0 +1,66 @@
+/* Основные стили меню */
+.nav-menu {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.nav-menu__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-menu__item {
+    position: relative;
+    margin-right: 20px;
+}
+
+.nav-menu__link {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    display: block;
+    transition: color 0.3s;
+}
+
+.nav-menu__link:hover {
+    color: #007bff;
+}
+
+/* Стили для подменю */
+.nav-menu__submenu {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.nav-menu__submenu-item {
+    margin: 0;
+}
+
+.nav-menu__submenu-link {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 15px;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-menu__submenu-link:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Отображение подменю при наведении */
+.nav-menu__item--has-submenu:hover .nav-menu__submenu {
+    display: block;
+}

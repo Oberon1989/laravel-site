@@ -5134,11 +5134,100 @@ $(document).ready(function () {
       type: 'POST',
       data: formData,
       success: function success(response) {
-        console.log(response);
+        showPopup(response['message'], 'success');
+        waitForPopupToHide();
+        window.location.href = '/';
       },
-      error: function error(xhr, status, _error) {
-        console.error('Ошибка:', _error);
+      error: function error(_error) {
+        showPopup(_error.responseJSON['message'], 'danger');
+        console.log(_error.responseJSON['message']);
       }
+    });
+  });
+  $('#registerForm').on('submit', function (e) {
+    if ($('#password').val() !== $('#confirmPassword').val()) {
+      showPopup('Пароли не совпадают', 'danger');
+      return false;
+    }
+    e.preventDefault();
+    var formAction = $(this).attr('action');
+    var formData = $(this).serialize();
+    $.ajax({
+      url: formAction,
+      type: 'POST',
+      data: formData,
+      success: function success(response) {
+        showPopup(response['message'], 'success');
+        waitForPopupToHide();
+        window.location.href = '/';
+      },
+      error: function error(_error2) {
+        showPopup(_error2.responseJSON['message'], 'danger');
+        console.log(_error2.responseJSON['message']);
+      }
+    });
+  });
+  $('#createUserFormForm').on('submit', function (e) {
+    if ($('#password').val() !== $('#confirmPassword').val()) {
+      showPopup('Пароли не совпадают', 'danger');
+      return false;
+    }
+    e.preventDefault();
+    var formAction = $(this).attr('action');
+    var formData = $(this).serialize();
+    var form = $(this);
+    $.ajax({
+      url: formAction,
+      type: 'POST',
+      data: formData,
+      success: function success(response) {
+        showPopup(response['message'], 'success');
+        form[0].reset();
+      },
+      error: function error(_error3) {
+        showPopup(_error3.responseJSON['message'], 'danger');
+      }
+    });
+  });
+  $('#editUser').on('submit', function (e) {
+    if ($('#password').val() !== $('#confirmPassword').val()) {
+      showPopup('Пароли не совпадают', 'danger');
+      return false;
+    }
+    e.preventDefault();
+    var formAction = $(this).attr('action');
+    var formData = $(this).serialize();
+    var form = $(this);
+    $.ajax({
+      url: formAction,
+      type: 'POST',
+      data: formData,
+      success: function success(response) {
+        showPopup(response['message'], 'success');
+        form[0].reset();
+      },
+      error: function error(_error4) {
+        showPopup(_error4.responseJSON['message'], 'danger');
+      }
+    });
+  });
+  $(document).ready(function () {
+    $('.processUser button').on('click', function (e) {
+      e.preventDefault();
+      var form = $(this).closest('.processUser');
+      var id = $(form).find('input[name="user_id"]').val();
+      var url = $(this).hasClass('accept') ? '/accept-user/' + id : '/reject-user/' + id;
+      $.ajax({
+        url: url,
+        type: 'get',
+        success: function success(response) {
+          showPopup(response.message, 'success');
+          form.closest('.card').remove();
+        },
+        error: function error(_error5) {
+          showPopup('Ошибка: ' + _error5.responseJSON.message, 'danger');
+        }
+      });
     });
   });
   $('#uploadImageForm').on('submit', function (e) {
@@ -5155,13 +5244,30 @@ $(document).ready(function () {
         console.log('Успех:', response);
         alert('Файлы успешно загружены!');
       },
-      error: function error(xhr, status, _error2) {
-        console.error('Ошибка:', _error2);
+      error: function error(xhr, status, _error6) {
+        console.error('Ошибка:', _error6);
         alert('Произошла ошибка при загрузке файлов.');
       }
     });
   });
 });
+function showPopup(message, type) {
+  var $popupMessage = $('#popupMessage');
+  $popupMessage.text(message).removeClass('d-none alert-success alert-danger').addClass("alert-".concat(type)).fadeIn();
+  setTimeout(function () {
+    $popupMessage.fadeOut(function () {
+      $popupMessage.addClass('d-none');
+    });
+  }, 2000);
+}
+function waitForPopupToHide() {
+  var popup = $('#popupMessage');
+  var interval = setInterval(function () {
+    if (popup.hasClass('d-none')) {
+      clearInterval(interval);
+    }
+  }, 250);
+}
 
 /***/ }),
 

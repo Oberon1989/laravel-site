@@ -18,14 +18,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+Route::prefix('users')->name('Users.')->middleware('auth')->group(function(){
+    Route::get('view/{user}', [UserController::class, 'getProfileView'])->name('getProfileViewRoute');
+    Route::post('edit', [UserController::class, 'editUser'])->name('editUserRoute');
+    Route::get('edit/view/{user}', [UserController::class, 'editUserView'])->name('editUserViewRoute');
+});
 
 Route::middleware('auth')->group(function(){
+    Route::get('/logout', [UserController::class, 'logout'])->name('logoutRoute');
     Route::get('/', function () {
         return view('index');
     })->name('indexRoute');
     Route::post('/upload-image',[FileController::class,'uploadImage'])->name('uploadImageRoute');
     Route::get('/upload-image',[FileController::class,'uploadImageView'])->name('uploadImageViewRoute');
+
+    Route::get('profile',[UserController::class,'profile'])->name('profileRoute');
+
+
     Route::get('/test',function (\App\Services\ImageService $imageService){
         $s = new App\Http\Controllers\SeverController();
         $user = Auth::user();
@@ -36,6 +45,17 @@ Route::middleware('auth')->group(function(){
 Route::middleware('guest')->group(function () {
     Route::get('/login', [UserController::class, 'loginView'])->name('loginViewRoute');
     Route::post('/login', [UserController::class, 'login'])->name('loginRoute');
+    Route::get('/register', [UserController::class, 'registerView'])->name('registerViewRoute');
+    Route::post('/register', [UserController::class, 'register'])->name('registerRoute');
 });
+
+Route::middleware(['role:admin'])->group(function () {
+    Route::get('/create-user', [UserController::class, 'registerView'])->name('createUserViewRoute');
+    Route::post('/create-user', [UserController::class, 'createNewUser'])->name('createUserRoute');
+    Route::get('/wait-confirm-user-list', [UserController::class, 'waitConfirmUsersView'])->name('waitConfirmUserListRoute');
+    Route::get('/accept-user/{user}', [UserController::class, 'acceptUser'])->name('acceptUserRoute');
+    Route::get('/reject-user/{user}', [UserController::class, 'rejectUser'])->name('rejectUserRoute');
+});
+
 
 
