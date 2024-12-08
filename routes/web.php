@@ -1,5 +1,7 @@
 <?php
 
+use App\Constants\Tg\TgConstants;
+use App\Events\CrashReport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SeverController;
@@ -27,6 +29,7 @@ Route::prefix('users')->name('Users.')->middleware('auth')->group(function(){
 Route::middleware('auth')->group(function(){
     Route::get('/logout', [UserController::class, 'logout'])->name('logoutRoute');
     Route::get('/', function () {
+        CrashReport::dispatch("вызвался метод profile",TgConstants::DEV_GROUP_ID);
         return view('index');
     })->name('indexRoute');
     Route::post('/upload-image',[FileController::class,'uploadImage'])->name('uploadImageRoute');

@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SeverController;
 
 Route::prefix('minecraft')->group(function () {
-    Route::get('join', [SeverController::class, 'join'])->name('joinRoute');
+    Route::post('join', [SeverController::class, 'join'])->name('apiJoinRoute');
+    Route::post('login', [SeverController::class, 'login'])->name('apiLoginRoute');
     Route::get('has-joined', [SeverController::class, 'hasJoined'])->name('hasJoinedRoute');
-    Route::get('profile', [SeverController::class, 'profile'])->name('minecraftProfileRoute');
+    Route::post('profile', [SeverController::class, 'profile'])->name('minecraftProfileRoute');
 });
 

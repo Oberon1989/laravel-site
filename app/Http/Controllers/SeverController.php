@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Constants\Tg\TgConstants;
+use App\Events\CrashReport;
 use App\Models\User;
 use App\Services\ImageService;
+use App\Services\LauncherServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SeverController extends Controller
 {
     public function hasJoined(Request $request,ImageService $imageService) : JsonResponse
     {
-
         $username = $request->get('username');
         $serverId = $request->get('serverId');
-
         if($username && $serverId && strlen($serverId) >=40)
         {
-            $user = User::where('username', $username)->first();
+            $user = User::where('login', $username)
+            ->where('serverID',$serverId)->where('status','>','0')->first();
             if($user){
                 $profile = $this->getProfile($user->uuid,$user->login,$user,$imageService);
+
                 return response()->json($profile);
             }
             else
@@ -36,45 +37,23 @@ class SeverController extends Controller
 
     }
 
-    public function join(Request $request) : JsonResponse
+    public function join(Request $request,LauncherServices $launcherServices) : JsonResponse
     {
-        $data = $request->json()->all();
-        $email = $data['email'];
-        $password = $data['password'];
-        $user = User::where('email', '=',$email)
-            ->where('password', '=',md5($password))
-            ->where('status', '=', 1)
-            ->first();
+        return $launcherServices->launcherSendJoin($request);
+    }
 
-        if($user){
-            if($user->status==1){
-                $accessToken = $this->generateAccessToken();
-                $user->access_token = $accessToken;
-                $user->save();
-                return response()->json(['uuid'=>$user->uuid,'accessToken'=>$user->access_token]);
-            }
-            if($user->status==-1){
-                return response()->json(['error'=>'You are banned permanent'],401);
-            }
-            else{
-                return response()->json(['error'=>'User not exist'],401);
-            }
-
-        }
-        else return response()->json(['error'=>'Unauthorized'], 401);
+    public function login(Request $request,LauncherServices $launcherServices) : JsonResponse
+    {
+        return $launcherServices->getResponseObj($request);
     }
 
     public function profile(Request $request) : JsonResponse
     {
+        CrashReport::dispatch("вызвался метод profile",TgConstants::DEV_GROUP_ID);
         return response()->json([]);
     }
 
-    private function generateAccessToken(): string
-    {
-        srand(time());
-        $randNum = rand(1000000000, 2147483647) . rand(1000000000, 2147483647) . rand(0, 9);
-        return md5($randNum);
-    }
+
 
     function getProfile($uuid, $username, User $user, ImageService $imageService): array
     {
