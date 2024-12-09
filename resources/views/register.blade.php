@@ -1,7 +1,7 @@
 @php
 
     $user= Illuminate\Support\Facades\Auth::user();
-    $admin = $user->isAdmin();
+    $admin = $user?$user->isAdmin():false;
     $route = $admin? 'createUserRoute' : 'registerRoute';
     $title = $admin? 'Создание пользователя' : 'Регистрация';
     $formId =$admin? 'createUserFormForm' : 'registerForm'

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SeverController;
 use App\Http\Controllers\UserController;
+use App\Services\BackendWebSockClient;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,8 +28,9 @@ Route::prefix('users')->name('Users.')->middleware('auth')->group(function(){
 
 Route::middleware('auth')->group(function(){
     Route::get('/logout', [UserController::class, 'logout'])->name('logoutRoute');
-    Route::get('/', function () {
-        CrashReport::dispatch(Auth::user()->email,\App\Constants\Tg\TgConstants::DEV_GROUP_ID());
+    Route::get('/', function (BackendWebSockClient $client) {
+
+       $client->connectToChannel('default',view('index')->render());
         return view('index');
     })->name('indexRoute');
     Route::post('/upload-image',[FileController::class,'uploadImage'])->name('uploadImageRoute');
