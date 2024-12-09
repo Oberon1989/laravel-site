@@ -4,7 +4,18 @@ namespace App\Constants\Tg;
 
 class TgConstants
 {
-    const BOT_TOKEN = '7872564700:AAHG_X5UUQssjSxq3U0vALKShjMe1qM1yvk';
-    const COMMON_GROUP_ID = '-881262660';
-    const DEV_GROUP_ID = '-1002387183893';
+    public static function BOT_TOKEN(): string
+    {
+        return env('BOT_TOKEN', 'default_bot_token');
+    }
+
+    public static function COMMON_GROUP_ID(): string
+    {
+        return env('COMMON_GROUP_ID', 'default_common_group_id');
+    }
+
+    public static function DEV_GROUP_ID(): string
+    {
+        return env('DEV_GROUP_ID', 'default_dev_group_id');
+    }
 }

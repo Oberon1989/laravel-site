@@ -49,7 +49,7 @@ class SeverController extends Controller
 
     public function profile(Request $request) : JsonResponse
     {
-        CrashReport::dispatch("вызвался метод profile",TgConstants::DEV_GROUP_ID);
+        CrashReport::dispatch("вызвался метод profile",TgConstants::DEV_GROUP_ID());
         return response()->json([]);
     }
 

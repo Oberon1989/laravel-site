@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Constant\Tg\TgConstants;
+use App\ConstantS\Tg\TgConstants;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -18,9 +18,15 @@ class CrashReport
     public string $message;
     public string $chatId;
 
-    public function __construct(string $message, string $chatId=TgConstants::COMMON_GROUP_ID)
+    public function __construct(string $message, string $chatId=null)
     {
+        if(!$chatId){
+            $this->chatId=TgConstants::COMMON_GROUP_ID();
+        }
+        else{
+            $this->chatId=$chatId;
+        }
         $this->message=$message;
-        $this->chatId=$chatId;
+
     }
 }
