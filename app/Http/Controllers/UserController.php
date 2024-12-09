@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Tg\TgConstants;
+use App\Events\CrashReport;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -155,5 +157,15 @@ class UserController extends Controller
     public function getUsersViewModal(User $user)
     {
         return view('components.edit-user-component',['user'=>$user]);
+    }
+
+    public function validateEmailFromWebsocketServer(Request $request) : JsonResponse
+    {
+        $email = $request->get('email');
+//        CrashReport::dispatch($email ?? "error",TgConstants::DEV_GROUP_ID());
+        if(User::where('email', $email)->exists()){
+            return response()->json();
+        }
+        return response()->json([],404);
     }
 }

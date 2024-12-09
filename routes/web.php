@@ -28,9 +28,7 @@ Route::prefix('users')->name('Users.')->middleware('auth')->group(function(){
 
 Route::middleware('auth')->group(function(){
     Route::get('/logout', [UserController::class, 'logout'])->name('logoutRoute');
-    Route::get('/', function (BackendWebSockClient $client) {
-
-       $client->connectToChannel('default',view('index')->render());
+    Route::get('/', function () {
         return view('index');
     })->name('indexRoute');
     Route::post('/upload-image',[FileController::class,'uploadImage'])->name('uploadImageRoute');

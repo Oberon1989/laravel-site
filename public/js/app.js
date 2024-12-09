@@ -5294,6 +5294,60 @@ function waitForPopupToHide() {
 
 /***/ }),
 
+/***/ "./resources/js/websock.js":
+/*!*********************************!*\
+  !*** ./resources/js/websock.js ***!
+  \*********************************/
+/***/ (() => {
+
+// Ссылка на WebSocket сервер
+
+var socket;
+
+// Функция, которая будет вызвана при получении сообщения
+function handleMessage(message) {
+  console.log("Callback вызван с сообщением:", message);
+}
+
+// Функция для подключения к WebSocket серверу
+function connectWebSocket(onMessageCallback, url) {
+  if (socket) {
+    console.log("Уже подключено к WebSocket серверу.");
+    return; // Если уже подключено, просто выходим
+  }
+  socket = new WebSocket(url);
+
+  // Событие при открытии соединения
+  socket.onopen = function () {
+    console.log('Подключение установлено!');
+  };
+
+  // Событие при получении сообщения
+  socket.onmessage = function (event) {
+    console.log('Сообщение от сервера:', event.data);
+    // Здесь вызываем переданный callback (onMessageCallback)
+    if (onMessageCallback && typeof onMessageCallback === 'function') {
+      onMessageCallback(event.data); // Вызываем callback с данными
+    }
+  };
+
+  // Событие при закрытии соединения
+  socket.onclose = function (event) {
+    if (event.wasClean) {
+      console.log("\u0421\u043E\u0435\u0434\u0438\u043D\u0435\u043D\u0438\u0435 \u0437\u0430\u043A\u0440\u044B\u0442\u043E \u0447\u0438\u0441\u0442\u043E (\u043A\u043E\u0434 ".concat(event.code, ")"));
+    } else {
+      console.log("\u0421\u043E\u0435\u0434\u0438\u043D\u0435\u043D\u0438\u0435 \u043F\u043E\u0442\u0435\u0440\u044F\u043D\u043E (\u043A\u043E\u0434 ".concat(event.code, ")"));
+    }
+  };
+
+  // Событие при ошибке соединения
+  socket.onerror = function (error) {
+    console.error("\u041E\u0448\u0438\u0431\u043A\u0430 WebSocket: ".concat(error.message));
+  };
+}
+
+/***/ }),
+
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.esm.js":
 /*!*********************************************************!*\
   !*** ./node_modules/bootstrap/dist/js/bootstrap.esm.js ***!
@@ -38113,6 +38167,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"name":"axios","version":"0.21.4","de
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/user.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/websock.js")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	

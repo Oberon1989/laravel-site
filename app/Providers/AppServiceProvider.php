@@ -16,10 +16,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
 
-        $this->app->singleton(WebSocketServer::class, function ($app) {
-
-            return WebSocketServer::getInstance('127.0.0.1', 8080, false); // Пример с параметрами
-        });
     }
 
     /**

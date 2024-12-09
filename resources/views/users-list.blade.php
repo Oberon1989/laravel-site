@@ -35,4 +35,14 @@
             </div>
         @endforeach
     </div>
+
+@endsection
+
+@section('custom-scripts')
+    <script>
+        $(document).ready(function () {
+            let url = 'ws://127.0.0.1:8090?channel=user-list&email={{ Auth::user()->email }}&token=34c4adabb11b632c84426f5bb3c6e85f';
+            connectWebSocket(handleMessage, url);
+        });
+    </script>
 @endsection
