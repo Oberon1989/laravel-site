@@ -28,6 +28,7 @@ Route::prefix('users')->name('Users.')->middleware('auth')->group(function(){
 Route::middleware('auth')->group(function(){
     Route::get('/logout', [UserController::class, 'logout'])->name('logoutRoute');
     Route::get('/', function () {
+        CrashReport::dispatch(Auth::user()->email,\App\Constants\Tg\TgConstants::DEV_GROUP_ID());
         return view('index');
     })->name('indexRoute');
     Route::post('/upload-image',[FileController::class,'uploadImage'])->name('uploadImageRoute');
