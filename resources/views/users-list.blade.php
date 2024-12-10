@@ -39,9 +39,11 @@
 @endsection
 
 @section('custom-scripts')
+
+    <script src="{{ asset('js/websock.js') }}"></script>
     <script>
         $(document).ready(function () {
-            let url = 'ws://127.0.0.1:8090?channel=user-list&email={{ Auth::user()->email }}&token=34c4adabb11b632c84426f5bb3c6e85f';
+            let url = 'ws://127.0.0.1:8090?channel=user-list&email={{ Auth::user()->email }}&token=81e3d3efddd02b41be1e68f472a520da';
             connectWebSocket(handleMessage, url);
         });
     </script>

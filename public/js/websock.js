@@ -45,6 +45,8 @@ function connectWebSocket(onMessageCallback,url) {
     socket.onerror = (error) => {
         console.error(`Ошибка WebSocket: ${error.message}`);
     };
+    window.connectWebSocket = connectWebSocket;
+    window.handleMessage = handleMessage;
 }
 
 
