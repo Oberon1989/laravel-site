@@ -6,24 +6,22 @@ use Illuminate\Support\Facades\Http;
 
 class WebsocketService
 {
-    public function sendMessage(string $channel, string $message)
+    public function sendMessage(string $channel, string $message): int
     {
-        $serverUrl = 'http://127.0.0.1:8080/send';  // Обратите внимание на полный URL с http://
+        $serverUrl = 'http://127.0.0.1:8080/send';
         $data = [
             'channel' => $channel,
             'message' => $message,
         ];
 
-        // Отправка POST-запроса
         $response = Http::post($serverUrl, $data);
 
-        // Обработка ответа (например, проверка статуса ответа)
+
         if ($response->successful()) {
-            // Запрос выполнен успешно
-            return $response->json();  // или любые другие действия с успешным ответом
+
+            return 0;
         } else {
-            // Обработка ошибки
-            return response()->json(['error' => 'Ошибка при отправке сообщения'], 500);
+            return 1;
         }
     }
 }

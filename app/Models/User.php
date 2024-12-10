@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Constants\Tg\TgConstants;
+use App\Events\CrashReport;
+use App\Jobs\UpdateUser;
+use App\Services\WebsocketService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,6 +55,9 @@ class User extends Authenticatable
 
         static::creating(function ($user) {
             $user->uuid = md5($user->email . $user->login . $user->role);
+        });
+        static::updated(function ($user) {
+            UpdateUser::dispatch($user);
         });
     }
 

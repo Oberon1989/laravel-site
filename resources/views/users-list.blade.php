@@ -6,13 +6,13 @@
     <div class="container py-4">
         <h1 class="mb-4">Список пользователей</h1>
         @foreach($users as $user)
-            <div class="row align-items-center mb-3 border-bottom pb-2">
-                <!-- Данные пользователя -->
-                <div class="col-12 col-md-2"><strong>Имя:</strong> {{$user->name}}</div>
-                <div class="col-12 col-md-2"><strong>Логин:</strong> {{$user->login}}</div>
-                <div class="col-12 col-md-3"><strong>Email:</strong> {{$user->email}}</div>
-                <div class="col-12 col-md-3"><strong>UUID:</strong> {{$user->uuid}}</div>
-                <div class="col-12 col-md-2"><strong>Дата:</strong> {{$user->created_at}}</div>
+            <div class="row align-items-center mb-3 border-bottom pb-2 userRow">
+                <div class="col-12 col-md-2 userIdCol"><strong>ID:</strong><p>{{$user->id}}</p></div>
+                <div class="col-12 col-md-2 nameCol"><strong>Имя: </strong><p>{{$user->name}}</p></div>
+                <div class="col-12 col-md-2 loginCol"><strong>Логин: </strong><p>{{$user->login}}</p></div>
+                <div class="col-12 col-md-3 emailCol"><strong>Email: </strong><p>{{$user->email}}</p></div>
+                <div class="col-12 col-md-3 uuidCol"><strong>UUID: </strong><p>{{$user->uuid}}</p></div>
+                <div class="col-12 col-md-2 dataCol"><strong>Дата: </strong><p>{{$user->created_at}}</p></div>
 
                 <!-- Кнопки -->
                 <div class="col-12 mt-2 mt-md-0 col-md-12 d-flex justify-content-end gap-2">
@@ -42,9 +42,36 @@
 
     <script src="{{ asset('js/websock.js') }}"></script>
     <script>
+
+        function updateUserRow(data) {
+
+            data = JSON.parse(data);
+
+            const userRow = $('.userRow').find('.userIdCol').filter(function () {
+                const userIdText = $(this).find('p').text();
+
+                return parseInt(userIdText) === parseInt(data.user_id);
+            }).first().closest('.userRow');
+
+            console.log(userRow)
+           if(userRow.length!==0){
+               setText(userRow,'.nameCol',data.user_name)
+               setText(userRow,'.loginCol',data.user_login)
+               setText(userRow,'.emailCol',data.user_email)
+               setText(userRow,'.uuiCol',data.user_uuid)
+           }
+
+        }
+
         $(document).ready(function () {
-            let url = 'ws://127.0.0.1:8090?channel=user-list&email={{ Auth::user()->email }}&token=81e3d3efddd02b41be1e68f472a520da';
-            connectWebSocket(handleMessage, url);
+            let url = 'ws://127.0.0.1:8090?channel=user-list&email={{ Auth::user()->email }}&token=50daad2f6875d1646d83f18a913f0b0d';
+            connectWebSocket(updateUserRow, url);
         });
+
+        function setText(elem,className, text){
+           $($(elem).find(className).first()).find('p').first().text(text)
+
+
+        }
     </script>
 @endsection
