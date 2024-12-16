@@ -59,6 +59,7 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/reject-user/{user}', [UserController::class, 'rejectUser'])->name('rejectUserRoute');
     Route::get('/users', [UserController::class, 'getUsersView'])->name('getUsersViewRoute');
     Route::get('/users/edit-user-modal/{user}', [UserController::class, 'getUsersViewModal'])->name('getUsersViewModalRoute');
+    Route::get('/server-control',[SeverController::class,'getServerControlView'])->name('getServerControlViewRoute');
 });
 
 

@@ -29,6 +29,8 @@
                         </li>
                         <li class="nav-menu__submenu-item"><a href="{{route('getUsersViewRoute')}}"
                                                               class="nav-menu__submenu-link">Все пользователи</a></li>
+                        <li class="nav-menu__submenu-item"><a href="{{route('getServerControlViewRoute')}}"
+                                                              class="nav-menu__submenu-link">Управление сервером</a></li>
                     </ul>
                     @endadmin
                 </li>

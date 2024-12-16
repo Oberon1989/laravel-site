@@ -9,6 +9,7 @@ use App\Services\ImageService;
 use App\Services\LauncherServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SeverController extends Controller
 {
@@ -51,6 +52,11 @@ class SeverController extends Controller
     {
         CrashReport::dispatch("вызвался метод profile",TgConstants::DEV_GROUP_ID());
         return response()->json([]);
+    }
+
+    public function getServerControlView() : View
+    {
+        return view('server-control');
     }
 
 

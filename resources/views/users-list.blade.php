@@ -64,7 +64,7 @@
         }
 
         $(document).ready(function () {
-            let url = 'ws://127.0.0.1:8090?channel=user-list&email={{ Auth::user()->email }}&token=50daad2f6875d1646d83f18a913f0b0d';
+            let url = 'ws://127.0.0.1:8090?channel=user-list&token=d9e29ed8ff5d37a878f1ecff36aeccad';
             connectWebSocket(updateUserRow, url);
         });
 

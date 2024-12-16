@@ -11,5 +11,5 @@ Route::prefix('minecraft')->group(function () {
     Route::post('profile', [SeverController::class, 'profile'])->name('minecraftProfileRoute');
 
 });
-Route::get('validate-email',[UserController::class,'validateEmailFromWebsocketServer'])->name('validateEmailFromWebsocketServerRoute');
+
 
